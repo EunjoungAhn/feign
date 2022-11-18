@@ -18,11 +18,32 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    /**
+     * Spring Boot and springCloudVersion must be compatible.
+     * 2.6.x, 2.7.x (Starting with 2021.0.3) = 2021.0.x
+     * ref : https://spring.io/projects/spring-cloud
+     */
+    // Feign - 위의 주소로 들어가 springframework 맞는 가장 최신 버전으로 바꾸어주어야 한다.
+    set('springCloudVersion', '2021.0.5')
+
+    set('commonsLangVersion', '3.12.0')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Feign
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 }
 
 tasks.named('test') {
